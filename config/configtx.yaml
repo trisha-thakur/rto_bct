@@ -1,0 +1,194 @@
+# The following configuration implements PBFT consensus mechanism for Hyperledger Fabric
+# This would be saved as configtx.yaml
+
+---
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/rto.gov.in/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+    
+    - &RtoOrg
+        Name: RtoOrgMSP
+        ID: RtoOrgMSP
+        MSPDir: crypto-config/peerOrganizations/rto.gov.in/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('RtoOrgMSP.admin', 'RtoOrgMSP.peer', 'RtoOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('RtoOrgMSP.admin', 'RtoOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('RtoOrgMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.rto.gov.in
+              Port: 7051
+    
+    - &TransportOrg
+        Name: TransportOrgMSP
+        ID: TransportOrgMSP
+        MSPDir: crypto-config/peerOrganizations/transport.gov.in/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('TransportOrgMSP.admin', 'TransportOrgMSP.peer', 'TransportOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('TransportOrgMSP.admin', 'TransportOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('TransportOrgMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.transport.gov.in
+              Port: 9051
+    
+    - &PoliceOrg
+        Name: PoliceOrgMSP
+        ID: PoliceOrgMSP
+        MSPDir: crypto-config/peerOrganizations/police.gov.in/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('PoliceOrgMSP.admin', 'PoliceOrgMSP.peer', 'PoliceOrgMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('PoliceOrgMSP.admin', 'PoliceOrgMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('PoliceOrgMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.police.gov.in
+              Port: 11051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft  # Using etcdraft as it implements PBFT consensus
+    # Configuration for PBFT consensus with 4 consensus nodes (orderers)
+    EtcdRaft:
+        Consenters:
+            - Host: orderer.rto.gov.in
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer.rto.gov.in/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer.rto.gov.in/tls/server.crt
+            - Host: orderer2.rto.gov.in
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer2.rto.gov.in/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer2.rto.gov.in/tls/server.crt
+            - Host: orderer3.rto.gov.in
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer3.rto.gov.in/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer3.rto.gov.in/tls/server.crt
+            - Host: orderer4.rto.gov.in
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer4.rto.gov.in/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/rto.gov.in/orderers/orderer4.rto.gov.in/tls/server.crt
+        Options:
+            TickInterval: 500ms
+            ElectionTick: 10
+            HeartbeatTick: 1
+            MaxInflightBlocks: 5
+            SnapshotIntervalSize: 16 MB
+    
+    # PBFT parameters for consensus (in EtcdRaft implementation)
+    # These settings configure fault tolerance where network can tolerate f=(n-1)/3 faulty nodes
+    # With 4 nodes, can tolerate 1 faulty node
+    BatchTimeout: 1s
+    BatchSize:
+        MaxMessageCount: 100
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    RTOOrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            RTOConsortium:
+                Organizations:
+                    - *RtoOrg
+                    - *TransportOrg
+                    - *PoliceOrg
+    
+    RTOChannel:
+        Consortium: RTOConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *RtoOrg
+                - *TransportOrg
+                - *PoliceOrg
+            Capabilities:
+                <<: *ApplicationCapabilities
