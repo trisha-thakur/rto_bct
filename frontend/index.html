@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTO Blockchain System</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: #1a237e;
+            padding: 15px 0;
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 30px 0;
+            min-height: calc(100vh - 134px);
+        }
+        
+        /* Cards */
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            margin: 0 -10px;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 10px;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-primary {
+            background-color: #1a237e;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #151b60;
+        }
+        
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .btn-danger {
+            background-color: #f44336;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background-color: #e53935;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.875rem;
+        }
+        
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Utils */
+        .text-center {
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Dashboard Stats */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin: 0 10px 20px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Vehicle Details */
+        .detail-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .detail-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            flex: 2;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom-color: #1a237e;
+            color: #1a237e;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #1a237e;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        /* Add this to your existing style section */
+.popup {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.popup.show {
+    display: block;
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-col {
+                margin-bottom: 15px;
+            }
+            
+            .stat-card {
+                margin: 0 0 20px;
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xNiAzNGgyYzEuNjU0IDAgMyAxLjM0NiAzIDNzLTEuMzQ2IDMtMyAzaC0yYy0xLjY1NCAwLTMtMS4zNDYtMy0zczEuMzQ2LTMgMy0zem0xNiAwaDJjMS42NTQgMCAzIDEuMzQ2IDMgM3MtMS4zNDYgMy0zIDNoLTJjLTEuNjU0IDAtMy0xLjM0Ni0zLTNzMS4zNDYtMyAzLTN6TTIwIDE5TDggMjRsMi00LTE1LjE5NEwxNCAxMmw2IDd6bTE5LjAzMyA1TDM2IDI0bC0xMi01IDYtNyAxMyA4LTEuOTY3IDR6TTI0IDZjMS4zMDQgMCAyLjQwNi44MzUgMi44MjggMmgtNS42NTZjLjQyMi0xLjE2NSAxLjUyNC0yIDIuODI4LTJ6bTEyIDE4SDEyYy0uNTUyIDAtMSAuNDQ4LTEgMXYxMGMwIC41NTIuNDQ4IDEgMSAxaDIuMDU1Yy4yMzMtMi40NzQgMi4zMDQtNC40MjcgNC44NTYtNC40MjdsMTAuMzk0LjAwMWMyLjQgMCA0LjM2NSAxLjc5NiA0LjY3OCA0LjEzOC4wMDEuMDI1LjAwOS4wNDguMDEuMDcyLjAwMy4wNzIuMDA3LjE0NC4wMDcuMjE2SDM2YS45OTkuOTk5IDAgMCAwIDEtMXYtMTBjMC0uNTUyLS40NDgtMS0xLTF6TTIxIDBjLTIuNzYxIDAtNSAyLjIzOS01IDV2MWgxdi42YzAgLjg4OS4yODkgMS43MTEuNzc4IDIuMzc4bC01LjIyMiA2LjA5MkM3LjQyNiAxMy4zMzEgMCAxNC43ODUgMCAxOGMwIDMuOTI1IDExLjYzMiA3LjAyMSAyMy4wNDEgNy4wMjFDMzQuNDUxIDI1LjAyMSA0NiAyMS45MjUgNDYgMThjMC0zLjIxNS03LjQyNi00LjY2OS0xMi41NTctMi45M2wtNS4yMjItNi4wOTJjLjQ5LS42NjcuNzc5LTEuNDg5Ljc3OS0yLjM3OFY2aDFWNWMwLTIuNzYxLTIuMjM5LTUtNS01aC00em04LjcxOSAxOC4zNTdjMi44MSAxLjA5MSA0LjQ4MSAyLjQ4MiA0LjQ4MSAzLjY0MyAwIDMuMTc4LTcuODM3IDUuNzIxLTE3LjUgNS43MjFTMCAyNS4xNzggMCAyMmMwLTEuMTYxIDEuNjcxLTIuNTUyIDQuNDgxLTMuNjQzTDYgMjJsNC45ODggMy45OS0zLjE3OS0zLjE4YTEuMDAzIDEuMDAzIDAgMCAxIDEuNDE0LTEuNDE1TDE1IDI3LjE3MlYzM2g0di02LjMzYzEuNDUxLjIxMyAzLjAzNi4zMyA0LjcuMzNzMy4yNDktLjExNyA0LjctLjMzVjMzaDRWMjcuMTcxbDUuNzc5LTUuNzc3YTEuMDAzIDEuMDAzIDAgMCAxIDEuNDE0IDEuNDE1TDMyLjAxMSAyNkwzNyAyMmwxLjUxOS0zLjY0M3oiLz48L3N2Zz4=" alt="RTO Logo">
+                <h1>RTO Blockchain System</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="register">Register Vehicle</a></li>
+                    <li><a href="#" class="nav-link" data-page="search">Search</a></li>
+                    <li><a href="#" class="nav-link" data-page="verify">Verify</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="home-page" class="page active">
+                <h1 class="section-title">Vehicle Blockchain Registry</h1>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>15,432</h3>
+                        <p>Registered Vehicles</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>1,247</h3>
+                        <p>Ownership Transfers</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>98%</h3>
+                        <p>Verification Accuracy</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Recent Activities</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Vehicle ID</th>
+                                <th>Registration No.</th>
+                                <th>Activity</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-activities">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="register-page" class="page">
+                <h1 class="section-title">Register New Vehicle</h1>
+                
+                <div class="card">
+                    <h2 class="card-title">Vehicle Information</h2>
+                    <form id="register-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="vehicleId">Vehicle ID</label>
+                                    <input type="text" id="vehicleId" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="registrationNumber">Registration Number</label>
+                                    <input type="text" id="registrationNumber" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="make">Make</label>
+                                    <input type="text" id="make" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="model">Model</label>
+                                    <input type="text" id="model" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="year">Year</label>
+                                    <input type="number" id="year" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="color">Color</label>
+                                    <input type="text" id="color" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="chassisNumber">Chassis Number</label>
+                                    <input type="text" id="chassisNumber" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="engineNumber">Engine Number</label>
+                                    <input type="text" id="engineNumber" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="card-title">Owner Information</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="ownerName">Owner Name</label>
+                                    <input type="text" id="ownerName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="ownerAadhar">Owner Aadhar</label>
+                                    <input type="text" id="ownerAadhar" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="card-title">Certificate Information</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="insuranceStatus">Insurance Status</label>
+                                    <select id="insuranceStatus" class="form-control" required>
+                                        <option value="Valid">Valid</option>
+                                        <option value="Invalid">Invalid</option>
+                                        <option value="Expired">Expired</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="insuranceExpiry">Insurance Expiry Date</label>
+                                    <input type="date" id="insuranceExpiry" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="pollutionCertificate">Pollution Certificate Status</label>
+                                    <select id="pollutionCertificate" class="form-control" required>
+                                        <option value="Valid">Valid</option>
+                                        <option value="Invalid">Invalid</option>
+                                        <option value="Expired">Expired</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="pollutionExpiry">Pollution Certificate Expiry</label>
+                                    <input type="date" id="pollutionExpiry" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="documentUpload">Upload Documents</label>
+                            <input type="file" id="documentUpload" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Register Vehicle</button>
+                            <button type="reset" class="btn btn-secondary">Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="search-page" class="page">
+                <h1 class="section-title">Search Vehicles</h1>
+                
+                <div class="card">
+                    <h2 class="card-title">Search Criteria</h2>
+                    <form id="search-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="searchType">Search By</label>
+                                    <select id="searchType" class="form-control">
+                                        <option value="vehicleId">Vehicle ID</option>
+                                        <option value="registrationNumber">Registration Number</option>
+                                        <option value="chassisNumber">Chassis Number</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="searchValue">Search Value</label>
+                                    <input type="text" id="searchValue" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="search-results" class="card" style="display: none;">
+                    <h2 class="card-title">Search Results</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Vehicle ID</th>
+                                <th>Registration No.</th>
+                                <th>Make/Model</th>
+                                <th>Owner</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="search-results-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="vehicle-details-page" class="page">
+                <h1 class="section-title">Vehicle Details</h1>
+                
+                <div class="card">
+                    <div id="details-header" class="card-title">
+                        <span id="details-vehicle-id"></span>
+                        <span id="details-status-badge" class="badge"></span>
+                    </div>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="basic-info">Basic Info</div>
+                        <div class="tab" data-tab="owner">Owner</div>
+                        <div class="tab" data-tab="certificates">Certificates</div>
+                        <div class="tab" data-tab="history">History</div>
+                    </div>
+                    
+                    <div id="basic-info" class="tab-content active">
+                        <div class="detail-row">
+                            <div class="detail-label">Registration Number</div>
+                            <div class="detail-value" id="details-reg-number"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Make</div>
+                            <div class="detail-value" id="details-make"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Model</div>
+                            <div class="detail-value" id="details-model"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Year</div>
+                            <div class="detail-value" id="details-year"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Color</div>
+                            <div class="detail-value" id="details-color"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Chassis Number</div>
+                            <div class="detail-value" id="details-chassis"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Engine Number</div>
+                            <div class="detail-value" id="details-engine"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Registration Date</div>
+                            <div class="detail-value" id="details-reg-date"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="owner" class="tab-content">
+                        <div class="detail-row">
+                            <div class="detail-label">Owner Name</div>
+                            <div class="detail-value" id="details-owner-name"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Owner Aadhar</div>
+                            <div class="detail-value" id="details-owner-aadhar"></div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" id="transfer-ownership-btn">Transfer Ownership</button>
+                        </div>
+                    </div>
+                    
+                    <div id="certificates" class="tab-content">
+                        <div class="detail-row">
+                            <div class="detail-label">Insurance Status</div>
+                            <div class="detail-value">
+                                <span id="details-insurance-status" class="badge"></span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Insurance Expiry</div>
+                            <div class="detail-value" id="details-insurance-expiry"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Pollution Certificate</div>
+                            <div class="detail-value">
+                                <span id="details-pollution-status" class="badge"></span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Pollution Expiry</div>
+                            <div class="detail-value" id="details-pollution-expiry"></div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" id="update-certificates-btn">Update Certificates</button>
+                        </div>
+                    </div>
+                    
+                    <div id="history" class="tab-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Transaction ID</th>
+                                    <th>Event</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary" id="back-to-search">Back to Search</button>
+                </div>
+            </div>
+            
+            <div id="transfer-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
+                    <span id="close-transfer-modal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                    <h2>Transfer Ownership</h2>
+                    <form id="transfer-form">
+                        <div class="form-group">
+                            <label for="newOwnerName">New Owner Name</label>
+                            <input type="text" id="newOwnerName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newOwnerAadhar">New Owner Aadhar</label>
+                            <input type="text" id="newOwnerAadhar" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="update-certificates-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
+                    <span id="close-update-certificates-modal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+                    <h2>Update Certificates</h2>
+                    <form id="update-certificates-form">
+                        <div class="form-group">
+                            <label for="updateInsuranceStatus">Insurance Status</label>
+                            <select id="updateInsuranceStatus" class="form-control" required>
+                                <option value="Valid">Valid</option>
+                                <option value="Invalid">Invalid</option>
+                                <option value="Expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateInsuranceExpiry">Insurance Expiry Date</label>
+                            <input type="date" id="updateInsuranceExpiry" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePollutionCertificate">Pollution Certificate Status</label>
+                            <select id="updatePollutionCertificate" class="form-control" required>
+                                <option value="Valid">Valid</option>
+                                <option value="Invalid">Invalid</option>
+                                <option value="Expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePollutionExpiry">Pollution Certificate Expiry</label>
+                            <input type="date" id="updatePollutionExpiry" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="registrationPopup" class="popup">
+                Vehicle Registered!
+            </div>
+            
+        </main>
+        <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Register form submission
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        // Get registration number to show in popup
+        const registrationNumber = document.getElementById('registrationNumber').value;
+        
+        // Update popup text with registration number
+        document.getElementById('registrationPopup').textContent = `Vehicle with Registration Number ${registrationNumber} Registered Successfully!`;
+        
+        // Show the popup
+        document.getElementById('registrationPopup').classList.add('show');
+        
+        // Hide popup after 3 seconds
+        setTimeout(function() {
+            document.getElementById('registrationPopup').classList.remove('show');
+        }, 3000);
+        
+        // Reset form
+        this.reset();
+    });
+
+    // Navigation links functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const pageId = this.getAttribute('data-page') + '-page';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(navLink => {
+                navLink.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Update active page
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        });
+    });
+
+    // Tab functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Search form functionality
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Show results container
+        document.getElementById('search-results').style.display = 'block';
+        
+        // Get search value for display
+        const searchValue = document.getElementById('searchValue').value;
+        
+        // Add dummy data to search results
+        const resultsBody = document.getElementById('search-results-body');
+        resultsBody.innerHTML = ''; // Clear previous results
+        
+        // Add dummy data rows
+        const dummyData = [
+            {
+                vehicleId: 'VH00123',
+                regNo: 'MH02AB1234',
+                makeModel: 'Honda City',
+                owner: 'John Doe',
+                status: 'Active'
+            },
+            {
+                vehicleId: 'VH00456',
+                regNo: 'MH04CD5678',
+                makeModel: 'Toyota Innova',
+                owner: 'Jane Smith',
+                status: 'Active'
+            },
+            {
+                vehicleId: 'VH00789',
+                regNo: 'MH06EF9012',
+                makeModel: 'Maruti Swift',
+                owner: 'Robert Johnson',
+                status: 'Active'
+            }
+        ];
+        
+        dummyData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.vehicleId}</td>
+                <td>${item.regNo}</td>
+                <td>${item.makeModel}</td>
+                <td>${item.owner}</td>
+                <td><span class="badge badge-success">${item.status}</span></td>
+                <td><button class="btn btn-sm btn-primary view-details" data-id="${item.vehicleId}">View Details</button></td>
+            `;
+            resultsBody.appendChild(row);
+        });
+        
+        // Add event listeners to view details buttons
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', function() {
+                viewVehicleDetails(this.getAttribute('data-id'));
+            });
+        });
+    });
+
+    // Function to view vehicle details
+    function viewVehicleDetails(vehicleId) {
+        // Hide search page and show details page
+        document.getElementById('search-page').classList.remove('active');
+        document.getElementById('vehicle-details-page').classList.add('active');
+        
+        // Set dummy data for vehicle details
+        document.getElementById('details-vehicle-id').textContent = `Vehicle ID: ${vehicleId}`;
+        document.getElementById('details-status-badge').textContent = 'Active';
+        document.getElementById('details-status-badge').className = 'badge badge-success';
+        
+        // Basic info
+        document.getElementById('details-reg-number').textContent = 'MH02AB1234';
+        document.getElementById('details-make').textContent = 'Honda';
+        document.getElementById('details-model').textContent = 'City';
+        document.getElementById('details-year').textContent = '2022';
+        document.getElementById('details-color').textContent = 'Silver';
+        document.getElementById('details-chassis').textContent = 'MRHBM12345';
+        document.getElementById('details-engine').textContent = 'ENGP87654';
+        document.getElementById('details-reg-date').textContent = '15-Jan-2022';
+        
+        // Owner info
+        document.getElementById('details-owner-name').textContent = 'John Doe';
+        document.getElementById('details-owner-aadhar').textContent = '1234-5678-9012';
+        
+        // Certificate info
+        document.getElementById('details-insurance-status').textContent = 'Valid';
+        document.getElementById('details-insurance-status').className = 'badge badge-success';
+        document.getElementById('details-insurance-expiry').textContent = '31-Dec-2025';
+        
+        document.getElementById('details-pollution-status').textContent = 'Valid';
+        document.getElementById('details-pollution-status').className = 'badge badge-success';
+        document.getElementById('details-pollution-expiry').textContent = '30-Jun-2025';
+        
+        // History table
+        const historyBody = document.getElementById('history-table-body');
+        historyBody.innerHTML = ''; // Clear previous history
+        
+        const historyData = [
+            {date: '15-Jan-2022', txId: 'TX0001', event: 'Vehicle Registration'},
+            {date: '28-Mar-2022', txId: 'TX0025', event: 'Insurance Update'},
+            {date: '14-Sep-2022', txId: 'TX0078', event: 'Pollution Certificate Update'},
+            {date: '03-Feb-2023', txId: 'TX0156', event: 'Ownership Transfer'}
+        ];
+        
+        historyData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.date}</td>
+                <td>${item.txId}</td>
+                <td>${item.event}</td>
+            `;
+            historyBody.appendChild(row);
+        });
+    }
+
+    // Also add recent activities to home page
+    function populateRecentActivities() {
+        const recentActivitiesBody = document.getElementById('recent-activities');
+        if (!recentActivitiesBody) return;
+        
+        const recentData = [
+            {vehicleId: 'VH00345', regNo: 'MH02XY5678', activity: 'Registration', date: '02-Apr-2025'},
+            {vehicleId: 'VH00278', regNo: 'MH01AB9012', activity: 'Ownership Transfer', date: '01-Apr-2025'},
+            {vehicleId: 'VH00189', regNo: 'MH05CD3456', activity: 'Insurance Update', date: '31-Mar-2025'},
+            {vehicleId: 'VH00567', regNo: 'MH03EF7890', activity: 'Registration', date: '30-Mar-2025'}
+        ];
+        
+        recentData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.vehicleId}</td>
+                <td>${item.regNo}</td>
+                <td>${item.activity}</td>
+                <td>${item.date}</td>
+                <td><button class="btn btn-sm btn-primary view-details" data-id="${item.vehicleId}">View Details</button></td>
+            `;
+            recentActivitiesBody.appendChild(row);
+        });
+        
+        // Add event listeners to view details buttons
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', function() {
+                viewVehicleDetails(this.getAttribute('data-id'));
+                
+                // Update navigation highlighting
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+            });
+        });
+    }
+    
+    // Run the function to populate recent activities
+    populateRecentActivities();
+
+    // Transfer ownership modal
+    document.getElementById('transfer-ownership-btn').addEventListener('click', function() {
+        document.getElementById('transfer-modal').style.display = 'block';
+    });
+    
+    document.getElementById('close-transfer-modal').addEventListener('click', function() {
+        document.getElementById('transfer-modal').style.display = 'none';
+    });
+    
+    document.getElementById('transfer-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const newOwnerName = document.getElementById('newOwnerName').value;
+        
+        // Update owner name in details
+        document.getElementById('details-owner-name').textContent = newOwnerName;
+        
+        // Show notification
+        document.getElementById('registrationPopup').textContent = `Ownership transferred to ${newOwnerName} successfully!`;
+        document.getElementById('registrationPopup').classList.add('show');
+        
+        // Hide popup after 3 seconds
+        setTimeout(function() {
+            document.getElementById('registrationPopup').classList.remove('show');
+        }, 3000);
+        
+        // Close modal
+        document.getElementById('transfer-modal').style.display = 'none';
+    });
+
+    // Update certificates modal
+    document.getElementById('update-certificates-btn').addEventListener('click', function() {
+        document.getElementById('update-certificates-modal').style.display = 'block';
+    });
+    
+    document.getElementById('close-update-certificates-modal').addEventListener('click', function() {
+        document.getElementById('update-certificates-modal').style.display = 'none';
+    });
+    
+    document.getElementById('update-certificates-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Update certificates in details
+        const insuranceStatus = document.getElementById('updateInsuranceStatus').value;
+        const pollutionStatus = document.getElementById('updatePollutionCertificate').value;
+        
+        document.getElementById('details-insurance-status').textContent = insuranceStatus;
+        document.getElementById('details-insurance-status').className = `badge badge-${insuranceStatus === 'Valid' ? 'success' : 'danger'}`;
+        document.getElementById('details-insurance-expiry').textContent = document.getElementById('updateInsuranceExpiry').value;
+        
+        document.getElementById('details-pollution-status').textContent = pollutionStatus;
+        document.getElementById('details-pollution-status').className = `badge badge-${pollutionStatus === 'Valid' ? 'success' : 'danger'}`;
+        document.getElementById('details-pollution-expiry').textContent = document.getElementById('updatePollutionExpiry').value;
+        
+        // Show notification
+        document.getElementById('registrationPopup').textContent = 'Certificates updated successfully!';
+        document.getElementById('registrationPopup').classList.add('show');
+        
+        // Hide popup after 3 seconds
+        setTimeout(function() {
+            document.getElementById('registrationPopup').classList.remove('show');
+        }, 3000);
+        
+        // Close modal
+        document.getElementById('update-certificates-modal').style.display = 'none';
+    });
+
+    // Back button functionality
+    document.getElementById('back-to-search').addEventListener('click', function() {
+        document.getElementById('vehicle-details-page').classList.remove('active');
+        document.getElementById('search-page').classList.add('active');
+    });
+
+    // Set the active page on load
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if(link.classList.contains('active')){
+            const pageId = link.getAttribute('data-page') + '-page';
+            document.getElementById(pageId).classList.add('active');
+        }
+    });
+});
+    
+        </script>
+    </body>
+    </html>
+            
